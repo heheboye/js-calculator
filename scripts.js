@@ -4,6 +4,8 @@ const previousValueDisplay = document.querySelector('.display1');
 const currentValueDisplay = document.querySelector('.display2');
 const operatorButtons = document.querySelectorAll('.operator');
 const equalsButton = document.querySelector('.operate');
+const deleteLast = document.querySelector('.delete');
+const clearAll = document.querySelector('.clear');
 
 //
 let operation = undefined;
@@ -18,24 +20,33 @@ function operate() {
   if (isNaN(current) || isNaN(previous)) return;
   switch (operation) {
     case '+':
-
+      result = previous + current;
+      break;
     case '-':
-
+      result = previous - current;
+      break;
     case '*':
-      
+      result = previous * current;
+      break;
     case '/':
+      result = previous / current;
+      break;
+    default:
+      break;
   }
+  currentValue = result;
+  operation = undefined;
+  previousValue = '';
 }
 
 //
 function getNumberPressed(number) {
-  if (number === '.' && currentValue.includes('.')) return;
-  if (number === '0' && currentValue.startsWith('0')) return;
-  if (currentValue.startsWith('0') && number > '0') {
+  if (number == '.' && currentValue.includes('.')) return;
+  if (currentValue == '0' && number != '.') {
     currentValue = number;
-  } else {
-    currentValue += number;
-  }
+    return;
+  };
+  currentValue += number;
 }
 
 //
@@ -43,19 +54,45 @@ function setOperator(operator) {
   if (currentValue === '') {
     operation = operator
     return
-  } else {
-    operation = operator;
-    previousValue = currentValue;
-    currentValue = '';
- }
+  }
+  if (previousValue !== '') {
+    operate();
+  } 
+  operation = operator;
+  previousValue = currentValue;
+  currentValue = '';
 }
 
 function updateScreen() {
   currentValueDisplay.innerText = currentValue;
-  previousValueDisplay.innerText = previousValue;
+  if (operation != null) {
+    previousValueDisplay.innerText = `${previousValue} ${operation}`;
+  }
+}
+
+function allClear() {
+  operation = undefined;
+  currentValue = '';
+  previousValue = '';
+  currentValueDisplay.innerText = '';
+  previousValueDisplay.innerText = '';
+};
+
+function removeLast() {
+  currentValue = currentValue.toString().slice(0, -1);
 }
 
 //
+deleteLast.addEventListener('click', button => {
+  removeLast();
+  updateScreen();
+});
+
+clearAll.addEventListener('click', button => {
+  allClear()
+  updateScreen();
+});
+
 Array.from(numberButtons).forEach((button) => {
   button.addEventListener('click', () => {
     getNumberPressed(button.innerText);

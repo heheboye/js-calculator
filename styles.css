@@ -9,9 +9,25 @@ body {
 }
 
 .display1 {
+  display: flex;
+  justify-content: right;
+  align-items: center;
   color: red;
+  width: 200px;
+  height: 25px;
 }
 
 .display2 {
+  display: flex;
+  justify-content: right;
+  align-items: center;
   color: red;
+  width: 200px;
+  height: 25px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
