@@ -111,3 +111,26 @@ equalsButton.addEventListener('click', button => {
   operate();
   updateScreen();
 });
+
+window.addEventListener('keydown', (key) => {
+  if (key.key == '.' || key.key >= 0 && key.key != ' ' ) {
+    getNumberPressed(key.key);
+    updateScreen();
+  }
+  if (key.key == '+' || key.key == '-' || key.key == '*' || key.key == '/') {
+    setOperator(key.key);
+    updateScreen();
+  }
+  if (key.key == '=' || key.key == 'Enter') {
+    operate();
+    updateScreen();
+  }
+  if (key.key == 'Backspace') {
+    removeLast();
+    updateScreen();
+  }
+  if (key.key == 'Escape') {
+    allClear();
+    updateScreen();
+  }
+});
